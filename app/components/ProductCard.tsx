@@ -14,22 +14,23 @@ export default function ProductCard({ product }: { product: Product }) {
     const [isLiked, setIsLiked] = useState(false)
     const [imgError, setImgError] = useState(false)
 
+    // Generar imagen de respaldo basada en el ID del producto
+    const getFallbackImage = (id: number) => {
+        // Usamos picsum.photos para imágenes aleatorias pero consistentes por ID
+        return `https://picsum.photos/id/${(id % 100) + 1}/300/300`
+    }
+
+    const imageUrl = imgError ? getFallbackImage(product.id) : product.image
+
     return (
         <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-            <div className="h-48 p-4 flex items-center justify-center bg-gray-100">
-                {!imgError ? (
-                    <img
-                        src={product.image}
-                        alt={product.title}
-                        className="h-full object-contain"
-                        onError={() => setImgError(true)}
-                    />
-                ) : (
-                    <div className="text-center text-gray-400">
-                        <span className="text-4xl">🖼️</span>
-                        <p className="text-sm mt-2">Imagen no disponible</p>
-                    </div>
-                )}
+            <div className="h-48 p-4 flex items-center justify-center bg-gray-50">
+                <img
+                    src={imageUrl}
+                    alt={product.title}
+                    className="h-full object-contain"
+                    onError={() => setImgError(true)}
+                />
             </div>
 
             <div className="p-4">
@@ -46,8 +47,8 @@ export default function ProductCard({ product }: { product: Product }) {
                     <button
                         onClick={() => setIsLiked(!isLiked)}
                         className={`px-4 py-2 rounded-lg transition-all duration-200 ${isLiked
-                                ? 'bg-red-500 text-white hover:bg-red-600'
-                                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                            ? 'bg-red-500 text-white hover:bg-red-600'
+                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                             }`}
                     >
                         {isLiked ? '❤️ Me gusta' : '🤍 Dar like'}
