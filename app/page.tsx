@@ -3,20 +3,31 @@ import ProductGrid from './components/ProductGrid'
 
 async function getProducts() {
   try {
-    const res = await fetch('https://fakestoreapi.com/products', {
-      cache: 'no-store', // Cambiado para evitar caché problemática
-      next: { revalidate: 60 } // Revalidar cada 60 segundos
+    // Cambiamos a una API más confiable (DummyJSON)
+    const res = await fetch('https://dummyjson.com/products', {
+      cache: 'no-store',
+      next: { revalidate: 60 }
     })
 
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`)
     }
 
-    return await res.json()
+    const data = await res.json()
+    return data.products || [] // DummyJSON devuelve { products: [] }
+
   } catch (error) {
     console.error('Error fetching products:', error)
-    // Retornar array vacío en caso de error
-    return []
+    // Datos de respaldo en caso de error total
+    return [
+      {
+        id: 1,
+        title: 'Producto de prueba',
+        price: 99.99,
+        image: 'https://via.placeholder.com/150',
+        description: 'Este es un producto de respaldo mientras la API se recupera.'
+      }
+    ]
   }
 }
 
