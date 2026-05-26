@@ -36,7 +36,6 @@ export default function ProductCard({ product }: { product: Product }) {
                     </span>
                     <button
                         onClick={() => setIsLiked(!isLiked)}
-                        className="px-4 py-2 rounded-lg transition-colors duration-200"
                         className={`px-4 py-2 rounded-lg transition-all duration-200 ${isLiked
                             ? 'bg-red-500 text-white hover:bg-red-600'
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
