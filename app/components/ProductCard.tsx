@@ -6,21 +6,19 @@ interface Product {
     id: number
     title: string
     price: number
-    image: string
+    images: string[]  // DummyJSON usa "images" (array)
     description: string
+    thumbnail: string  // También tiene thumbnail
 }
 
 export default function ProductCard({ product }: { product: Product }) {
     const [isLiked, setIsLiked] = useState(false)
     const [imgError, setImgError] = useState(false)
 
-    // Generar imagen de respaldo basada en el ID del producto
-    const getFallbackImage = (id: number) => {
-        // Usamos picsum.photos para imágenes aleatorias pero consistentes por ID
-        return `https://picsum.photos/id/${(id % 100) + 1}/300/300`
-    }
-
-    const imageUrl = imgError ? getFallbackImage(product.id) : product.image
+    // Usar la primera imagen del array, o thumbnail, o respaldo
+    const imageUrl = imgError
+        ? `https://picsum.photos/id/${(product.id % 100) + 1}/300/300`
+        : (product.images?.[0] || product.thumbnail || `https://picsum.photos/id/${(product.id % 100) + 1}/300/300`)
 
     return (
         <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden">

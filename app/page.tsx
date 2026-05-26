@@ -3,10 +3,8 @@ import ProductGrid from './components/ProductGrid'
 
 async function getProducts() {
   try {
-    // Cambiamos a una API más confiable (DummyJSON)
     const res = await fetch('https://dummyjson.com/products', {
-      cache: 'no-store',
-      next: { revalidate: 60 }
+      next: { revalidate: 60 } // Solo esto es suficiente
     })
 
     if (!res.ok) {
@@ -14,20 +12,11 @@ async function getProducts() {
     }
 
     const data = await res.json()
-    return data.products || [] // DummyJSON devuelve { products: [] }
+    return data.products || []
 
   } catch (error) {
     console.error('Error fetching products:', error)
-    // Datos de respaldo en caso de error total
-    return [
-      {
-        id: 1,
-        title: 'Producto de prueba',
-        price: 99.99,
-        image: 'https://via.placeholder.com/150',
-        description: 'Este es un producto de respaldo mientras la API se recupera.'
-      }
-    ]
+    return []
   }
 }
 
