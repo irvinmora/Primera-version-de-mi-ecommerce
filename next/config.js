@@ -1,16 +1,28 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    // Ignorar errores de TypeScript durante el build (temporal)
+    images: {
+        domains: ['dummyjson.com', 'via.placeholder.com', 'picsum.photos'],
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'cdn.dummyjson.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'images.unsplash.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'picsum.photos',
+            },
+        ],
+    },
+    // Ignorar errores de TypeScript durante el build
     typescript: {
         ignoreBuildErrors: true,
     },
-    // Ignorar errores de ESLint durante el build
     eslint: {
         ignoreDuringBuilds: true,
-    },
-    // Configuración para imágenes externas
-    images: {
-        domains: ['fakestoreapi.com'],
     },
 }
 
