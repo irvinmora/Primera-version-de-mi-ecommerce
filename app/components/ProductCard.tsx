@@ -12,17 +12,20 @@ interface Product {
 
 export default function ProductCard({ product }: { product: Product }) {
     const [isLiked, setIsLiked] = useState(false)
+    const [imgError, setImgError] = useState(false)
+
+    const imageUrl = imgError
+        ? `https://picsum.photos/id/${(product.id % 100) + 1}/300/300`
+        : product.image
 
     return (
         <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden">
             <div className="h-48 p-4 flex items-center justify-center bg-gray-50">
                 <img
-                    src={product.image}
+                    src={imageUrl}
                     alt={product.title}
                     className="h-full object-contain"
-                    onError={(e) => {
-                        e.currentTarget.src = 'https://picsum.photos/id/20/300/300'
-                    }}
+                    onError={() => setImgError(true)}
                 />
             </div>
 
@@ -40,8 +43,8 @@ export default function ProductCard({ product }: { product: Product }) {
                     <button
                         onClick={() => setIsLiked(!isLiked)}
                         className={`px-4 py-2 rounded-lg transition-all duration-200 ${isLiked
-                            ? 'bg-red-500 text-white hover:bg-red-600'
-                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                ? 'bg-red-500 text-white hover:bg-red-600'
+                                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                             }`}
                     >
                         {isLiked ? '❤️ Me gusta' : '🤍 Dar like'}
