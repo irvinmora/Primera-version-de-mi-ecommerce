@@ -1,23 +1,32 @@
 import Header from './components/Header'
 import ProductGrid from './components/ProductGrid'
 
-async function getProducts() {
-  try {
-    const res = await fetch('https://dummyjson.com/products', {
-      next: { revalidate: 60 } // Solo esto es suficiente
-    })
-
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`)
-    }
-
-    const data = await res.json()
-    return data.products || []
-
-  } catch (error) {
-    console.error('Error fetching products:', error)
-    return []
+const products = [
+  {
+    id: 1,
+    title: "Essence Mascara Lash Princess",
+    price: 9.99,
+    image: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=300&h=300&fit=crop",
+    description: "Máscara de pestañas voluminizadora y alargadora."
+  },
+  {
+    id: 2,
+    title: "Eyeshadow Palette with Mirror",
+    price: 19.99,
+    image: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=300&h=300&fit=crop",
+    description: "Paleta de sombras con espejo incorporado."
+  },
+  {
+    id: 3,
+    title: "Red Lipstick",
+    price: 12.99,
+    image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=300&h=300&fit=crop",
+    description: "Labial rojo clásico y duradero."
   }
+]
+
+async function getProducts() {
+  return products
 }
 
 export default async function Home() {
@@ -30,13 +39,7 @@ export default async function Home() {
         <h2 className="text-2xl font-bold mb-6 text-gray-800">
           Nuestros Productos ({products.length})
         </h2>
-        {products.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500">No se pudieron cargar los productos. Intenta nuevamente más tarde.</p>
-          </div>
-        ) : (
-          <ProductGrid products={products} />
-        )}
+        <ProductGrid products={products} />
       </main>
     </div>
   )

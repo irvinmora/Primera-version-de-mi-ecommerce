@@ -6,28 +6,23 @@ interface Product {
     id: number
     title: string
     price: number
-    images: string[]  // DummyJSON usa "images" (array)
+    image: string
     description: string
-    thumbnail: string  // También tiene thumbnail
 }
 
 export default function ProductCard({ product }: { product: Product }) {
     const [isLiked, setIsLiked] = useState(false)
-    const [imgError, setImgError] = useState(false)
-
-    // Usar la primera imagen del array, o thumbnail, o respaldo
-    const imageUrl = imgError
-        ? `https://picsum.photos/id/${(product.id % 100) + 1}/300/300`
-        : (product.images?.[0] || product.thumbnail || `https://picsum.photos/id/${(product.id % 100) + 1}/300/300`)
 
     return (
         <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden">
             <div className="h-48 p-4 flex items-center justify-center bg-gray-50">
                 <img
-                    src={imageUrl}
+                    src={product.image}
                     alt={product.title}
                     className="h-full object-contain"
-                    onError={() => setImgError(true)}
+                    onError={(e) => {
+                        e.currentTarget.src = 'https://picsum.photos/id/20/300/300'
+                    }}
                 />
             </div>
 
